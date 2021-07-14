@@ -14,11 +14,12 @@
 
                     <div class="form-group">
                         <label for="email">No Telp</label>
-                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                        @error('email')
-                        <div class="invalid-feedback">
-                            Please fill in your email
-                        </div>
+                        <input id="number" type="number" class="form-control" name="phone_number" value="{{ old('phone_number') }}" required autocomplete="phone_number" autofocus>
+
+                        @error('phone_number')
+                            <div class="invalid-feedback">
+                                Please fill in your phone_number
+                            </div>
                         @enderror
                     </div>
 
@@ -29,16 +30,16 @@
                         <input id="password" type="password" class="form-control" name="password" required autocomplete="current-password">
 
                         @error('password')
-                        <div class="invalid-feedback">
-                            please fill in your password
-                        </div>
+                            <div class="invalid-feedback">
+                                please fill in your password
+                            </div>
                         @enderror
                     </div>
 
                     <div class="form-group">
                         <div class="custom-control custom-checkbox">
-                        <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
-                        <label class="custom-control-label" for="remember-me">Remember Me</label>
+                            <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
+                            <label class="custom-control-label" for="remember-me">Remember Me</label>
                         </div>
                     </div>
 

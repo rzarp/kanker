@@ -13,20 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-//admin
 Auth::routes(['register' => false]);
-
-// Route::get('/','DashboardController@login')->name('login');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', 'DashboardController@dashboard')->name('dashboard');
 
-    Route::get('/inputdatapasien', 'DashboardController@inputpasien')->name('input.datapasien');
-    Route::get('/lihatdatapasien', 'DashboardController@datapasien')->name('lihat.datapasien');
+    Route::resource('patient', PatientController::class);
 
     Route::get('/inputregispasien', 'DashboardController@inputregispasien')->name('input.regispasien');
     Route::get('/lihatregispasien', 'DashboardController@dataregis')->name('lihat.regispasien');
