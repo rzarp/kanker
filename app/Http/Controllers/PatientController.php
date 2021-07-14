@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\PatientPostRequest;
 use App\Patient;
+use DataTables;
 
 class PatientController extends Controller
 {
@@ -13,8 +14,26 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $data = Patient::with('user', 'doctor');
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $button = "
+                        <a href='#' class='btn btn-primary'>Edit</a> |
+                        <a href='#' class='btn btn-danger'>Delete</a>
+                    ";
+                    return $button;
+                })
+                ->addColumn('status', function ($row) {
+                    return "<div class='badge badge-success'> - </div>";
+                })
+                ->rawColumns(['action', 'status'])
+                ->make(true);
+        }
+
         return view('admin-master.data-pasien');
     }
 
