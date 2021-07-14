@@ -1,7 +1,7 @@
 @extends('admin-master.base')
 @section('content')
 <div class="section-header">
-    <h1>Data Pasien</h1>         
+    <h1>Data Pasien</h1>
 </div>
 <div class="row">
   <div class="col-12">
@@ -11,20 +11,22 @@
       </div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-striped" id="table-1">
+          <table class="table table-striped" id="data-table">
             <thead>
               <tr>
                 <th class="text-center">
                   #
                 </th>
+                  <th>Nama Dokter</th>
                   <th>Nama Pasien</th>
-                  <th>Umur Pasien</th>
-                  <th>Alamat Pasien</th>
+                  <th>No Rekam Medis</th>
+                  <th>Tanggal Masuk</th>
+                  <th>Tanggal Keluar</th>
                   <th>Status</th>
                   <th>Action</th>
               </tr>
             </thead>
-            <tbody>
+            {{-- <tbody>
               <tr>
                 <td>
                   1
@@ -37,9 +39,9 @@
                   Kp.Banjaran Pucung
                 </td>
                 <td><div class="badge badge-success">Sembuh</div></td>
-                <td><a href="#" class="btn btn-primary">Edit</a> | <a href="#" class="btn btn-danger">Delete</a> </td>
+                <td> </td>
               </tr>
-            </tbody>
+            </tbody> --}}
           </table>
         </div>
       </div>
@@ -47,3 +49,25 @@
   </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        var table = $('#data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('patient.index') }}",
+            columns: [
+                {data: 'DT_RowIndex', name: 'id'},
+                {data: 'docktor.name', name: 'docktor.name'},
+                {data: 'user.name', name: 'user.name'},
+                {data: 'medical_number_record', name: 'medical_number_record'},
+                {data: 'date_in', name: 'date_in'},
+                {data: 'date_out', name: 'date_out'},
+                {data: 'status', name: 'status'},
+                {data: 'action', name: 'action', orderable: false, searchable: false},
+            ]
+        });
+    });
+</script>
+@endpush

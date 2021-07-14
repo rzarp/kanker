@@ -21,6 +21,8 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
   <link rel="stylesheet" href="{{asset('assets/css/components.css')}}">
+
+  @stack('stylesheets')
 </head>
 
 <body>
@@ -71,7 +73,7 @@
   <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 
-  
+
 
   <!-- Template JS File -->
   <script src="{{asset('assets/js/scripts.js')}}"></script>
@@ -85,6 +87,8 @@
       $('#summernote').summernote();
       });
   </script>
+
+  @stack('scripts')
 </body>
 </html>
 

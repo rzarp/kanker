@@ -1,14 +1,16 @@
 @extends('admin-master.base')
 @section('content')
     <div class="section-header">
-        <h1>Data Pasien</h1>         
+        <h1>Data Pasien</h1>
     </div>
-  
+
      <div class="card">
         <div class="card-header">
-        <h4>Input Data Pasien</h4>
+            <h4>Input Data Pasien</h4>
         </div>
+
         <div class="card-body">
+
         <div class="form-row">
             <div class="form-group col-md-12">
             <label for="inputEmail4">Nama</label>
