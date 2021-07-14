@@ -18,11 +18,16 @@ use Illuminate\Support\Facades\Route;
 // });
 
 //admin
+Auth::routes(['register' => false]);
+
 // Route::get('/','DashboardController@login')->name('login');
-Route::get('/','DashboardController@dashboard')->name('dashboard');
 
-Route::get('/inputdatapasien','DashboardController@inputpasien')->name('input.datapasien');
-Route::get('/lihatdatapasien','DashboardController@datapasien')->name('lihat.datapasien');
+Route::middleware('auth')->group(function () {
+    Route::get('/', 'DashboardController@dashboard')->name('dashboard');
 
-Route::get('/inputregispasien','DashboardController@inputregispasien')->name('input.regispasien');
-Route::get('/lihatregispasien','DashboardController@dataregis')->name('lihat.regispasien');
+    Route::get('/inputdatapasien', 'DashboardController@inputpasien')->name('input.datapasien');
+    Route::get('/lihatdatapasien', 'DashboardController@datapasien')->name('lihat.datapasien');
+
+    Route::get('/inputregispasien', 'DashboardController@inputregispasien')->name('input.regispasien');
+    Route::get('/lihatregispasien', 'DashboardController@dataregis')->name('lihat.regispasien');
+});
