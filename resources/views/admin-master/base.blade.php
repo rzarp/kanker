@@ -16,6 +16,8 @@
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/css/bootstrap-colorpicker.css">
 
 
   <!-- Template CSS -->
@@ -68,6 +70,9 @@
   <script src="../node_modules/jqvmap/dist/maps/jquery.vmap.world.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
   <script src="../node_modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
+  {{-- <script src="../node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script> --}}
 
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
@@ -79,6 +84,7 @@
   <script src="{{asset('assets/js/scripts.js')}}"></script>
   <script src="{{asset('assets/js/custom.js' )}}"></script>
   <script src="{{asset('assets/js/page/modules-datatables.js')}}"></script>
+  <script src="{{asset('assets/js/page/forms-advanced-forms.js')}}"></script>
 
   <!-- Page Specific JS File -->
   <script src="{{asset('assets/js/page/index-0.js')}}"></script>
