@@ -35,7 +35,7 @@ class PatientController extends Controller
                             <div class='row'>
                                 " . csrf_field() . "
                                 <input type='hidden' name='_method' value='DELETE'>
-                                <button type='submit' class='btn btn-danger ml-2'>Delete</button>
+                                <button type='submit' class='btn btn-danger ml-2'>Hapus</button>
                             </div>
                         </form>
                     </div>
