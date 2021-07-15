@@ -13,7 +13,7 @@ class PatientPostRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,6 @@ class PatientPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
             'dokter_id' => 'required',
             'medical_number_record' => 'required',
             'ktp' => 'required',
@@ -32,8 +31,6 @@ class PatientPostRequest extends FormRequest
             'birth_place' => 'required',
             'birth_date' => 'required',
             'address' => 'required',
-            'date_in' => 'required',
-            'date_out' => 'required',
             'symptoms' => 'required',
             'disease' => 'required',
             'stadium' => 'required',

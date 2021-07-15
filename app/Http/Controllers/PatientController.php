@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\PatientPostRequest;
-use App\Patient;
+use App\{
+    User,
+    Patient
+};
 use DataTables;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class PatientController extends Controller
 {
@@ -22,19 +27,25 @@ class PatientController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $button = "
-                        <a href='#' class='btn btn-primary'>Edit</a> |
-                        <a href='#' class='btn btn-danger'>Delete</a>
+                    <div class='row'>
+                        <a href='" . route('patient.show', $row->id) . "' class='btn btn-success'>Detail</a>
+                        <a href='" . route('patient.edit', $row->id) . "' class='btn btn-primary ml-2'>Edit</a>
+                        <form method='POST' action='" . route('patient.destroy', $row->id) . "' class='col-md-4'>
+                            <div class='row'>
+                                " . csrf_field() . "
+                                <input type='hidden' name='_method' value='DELETE'>
+                                <button type='submit' class='btn btn-danger ml-2'>Delete</button>
+                            </div>
+                        </form>
+                    </div>
                     ";
                     return $button;
-                })
-                ->addColumn('status', function ($row) {
-                    return "<div class='badge badge-success'> - </div>";
                 })
                 ->rawColumns(['action', 'status'])
                 ->make(true);
         }
 
-        return view('admin-master.data-pasien');
+        return view('admin-master.patient.data-pasien');
     }
 
     /**
@@ -44,7 +55,10 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('admin-master.input-pasien');
+        return view('admin-master.patient.input-pasien', [
+            'doctor' => User::where('role', 'ADMIN')->get(),
+            'medicalNumber' => Patient::all()->count() + 1
+        ]);
     }
 
     /**
@@ -55,8 +69,33 @@ class PatientController extends Controller
      */
     public function store(PatientPostRequest $request)
     {
-        Patient::create($request->validated());
-        return redirect()->route('patient.index');
+        DB::beginTransaction();
+
+        try {
+            $patientData = $request->validated();
+            $patientData['date_in'] = date('Y-m-d');
+
+            // create user first
+            $user = User::create([
+                'name' => $request->get('name'),
+                'phone_number' => $request->get('phone_number'),
+                'password' => Hash::make($request->get('password')),
+                'role' => 'PASIEN'
+            ]);
+
+            $patientData['user_id'] = $user->id;
+            Patient::create($patientData);
+
+            DB::commit();
+
+
+            flash('Data pasien berhasil ditambah!')->success();
+            return redirect()->route('patient.index');
+        } catch (\Exception $e) {
+            DB::rollback();
+            flash('Data gagal ditambah!')->danger();
+            return redirect()->back();
+        }
     }
 
     /**
@@ -67,8 +106,9 @@ class PatientController extends Controller
      */
     public function show($id)
     {
-        $find = Patient::findOrFail($id);
-        return $find;
+        return view('admin-master.patient.view-pasien', [
+            'patient' => Patient::findOrFail($id)
+        ]);
     }
 
     /**
@@ -79,8 +119,9 @@ class PatientController extends Controller
      */
     public function edit($id)
     {
-        return view('admin-master.input-pasien', [
-            'patient' => Patient::findOrFail($id)
+        return view('admin-master.patient.input-pasien', [
+            'patient' => Patient::findOrFail($id),
+            'doctor' => User::where('role', 'admin')->get()
         ]);
     }
 
@@ -91,9 +132,27 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PatientPostRequest $request, $id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+        DB::beginTransaction();
+
+        try {
+            Patient::where('id', $id)->update($request->validated());
+            User::where('id', $patient->user->id)->update([
+                'name' => $request->get('name')
+            ]);
+            DB::commit();
+
+            flash('Data berhasil diupdate')->success();
+            return redirect()->route('patient.index')
+                ->with('message', 'Data Berhasil Diupdate');
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            flash('Data gagal diupdate')->danger();
+            return redirect()->back();
+        }
     }
 
     /**
@@ -104,6 +163,8 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Patient::destroy($id);
+        flash('Data berhasil dihapus')->success();
+        return redirect()->route('patient.index');
     }
 }

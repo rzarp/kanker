@@ -24,7 +24,7 @@ class CreatePatientsTable extends Migration
             $table->date('birth_date');
             $table->text('address');
             $table->date('date_in');
-            $table->date('date_out');
+            $table->date('date_out')->nullable();
             $table->text('symptoms');
             $table->text('disease');
             $table->text('stadium');

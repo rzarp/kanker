@@ -22,26 +22,9 @@
                   <th>No Rekam Medis</th>
                   <th>Tanggal Masuk</th>
                   <th>Tanggal Keluar</th>
-                  <th>Status</th>
                   <th>Action</th>
               </tr>
             </thead>
-            {{-- <tbody>
-              <tr>
-                <td>
-                  1
-                </td>
-                <td>Bujang</td>
-                <td>
-                    20 tahun
-                </td>
-                <td>
-                  Kp.Banjaran Pucung
-                </td>
-                <td><div class="badge badge-success">Sembuh</div></td>
-                <td> </td>
-              </tr>
-            </tbody> --}}
           </table>
         </div>
       </div>
@@ -59,12 +42,11 @@
             ajax: "{{ route('patient.index') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'id'},
-                {data: 'docktor.name', name: 'docktor.name'},
+                {data: 'doctor.name', name: 'doctor.name'},
                 {data: 'user.name', name: 'user.name'},
                 {data: 'medical_number_record', name: 'medical_number_record'},
                 {data: 'date_in', name: 'date_in'},
                 {data: 'date_out', name: 'date_out'},
-                {data: 'status', name: 'status'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });
