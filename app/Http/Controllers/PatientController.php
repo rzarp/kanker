@@ -28,7 +28,8 @@ class PatientController extends Controller
                 ->addColumn('action', function ($row) {
                     $button = "
                     <div class='row'>
-                        <a href='" . route('patient.show', $row->id) . "' class='btn btn-success'>Detail</a>
+                        <a href='" . route('patient.progress', $row->id) . "' class='btn btn-warning'>Input Perkembangan Pasien</a>
+                        <a href='" . route('patient.show', $row->id) . "' class='btn btn-success ml-2'>Detail</a>
                         <a href='" . route('patient.edit', $row->id) . "' class='btn btn-primary ml-2'>Edit</a>
                         <form method='POST' action='" . route('patient.destroy', $row->id) . "' class='col-md-4'>
                             <div class='row'>
@@ -93,7 +94,7 @@ class PatientController extends Controller
             return redirect()->route('patient.index');
         } catch (\Exception $e) {
             DB::rollback();
-            flash('Data gagal ditambah!')->danger();
+            flash('Data gagal ditambah!')->error();
             return redirect()->back();
         }
     }
@@ -150,7 +151,7 @@ class PatientController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
 
-            flash('Data gagal diupdate')->danger();
+            flash('Data gagal diupdate')->error();
             return redirect()->back();
         }
     }
@@ -164,7 +165,7 @@ class PatientController extends Controller
     public function destroy($id)
     {
         Patient::destroy($id);
-        flash('Data berhasil dihapus')->success();
+        flash('Data berhasil dihapus')->error();
         return redirect()->route('patient.index');
     }
 }
