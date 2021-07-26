@@ -1,13 +1,14 @@
 @extends('admin-master.base')
 @section('content')
-    <div class="section-header">
-        <h1>Input Data Pasien</h1>
-    </div>
 
     @php
         $user = $user ?? null;
         $action = $user ? route('user.update', $user->id) : route('user.store');
     @endphp
+
+    <div class="section-header">
+        <h1> {{ $user ? 'Edit' : 'Tambah' }} User</h1>
+    </div>
 
     <div class="card">
         <div class="card-body">

@@ -91,6 +91,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if ($id != auth()->user()->id) {
+            abort(403);
+        }
+
         return view('admin-master.user.input', [
             'user' => User::findOrFail($id)
         ]);
