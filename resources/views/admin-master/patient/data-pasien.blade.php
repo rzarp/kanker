@@ -20,8 +20,9 @@
                   <th>Nama Dokter</th>
                   <th>Nama Pasien</th>
                   <th>No Rekam Medis</th>
-                  <th>Tanggal Masuk</th>
-                  <th>Tanggal Keluar</th>
+                  <th>Ktp</th>
+                  <th>Jenis Kelamin</th>
+                  <th> Status </th>
                   <th>Action</th>
               </tr>
             </thead>
@@ -43,10 +44,11 @@
             columns: [
                 {data: 'DT_RowIndex', name: 'id'},
                 {data: 'doctor.name', name: 'doctor.name'},
-                {data: 'user.name', name: 'user.name'},
+                {data: 'name', name: 'name'},
                 {data: 'medical_number_record', name: 'medical_number_record'},
-                {data: 'date_in', name: 'date_in'},
-                {data: 'date_out', name: 'date_out'},
+                {data: 'ktp', name: 'ktp'},
+                {data: 'gender', name: 'gender'},
+                {data: 'status', name: 'status'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });

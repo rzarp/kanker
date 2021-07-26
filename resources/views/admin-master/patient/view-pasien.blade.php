@@ -6,11 +6,17 @@
 
     <div class="card">
         <div class="card-body row">
+
+            <div class="col-md-12">
+                <h4> Data Pasien </h4>
+                <hr>
+            </div>
+
             <div class="form-group col-md-6">
                 <div class="form-group">
                     <label>Nama Dokter</label>
-                    <input type="hidden" value="{{ auth()->user()->id }}" name="dokter_id">
-                    <input type="text" class="form-control" value="{{ $patient ? $patient->doctor->name : auth()->user()->name }}"  readonly>
+                    <input disabled type="hidden" value="{{ auth()->user()->id }}" name="dokter_id">
+                    <input disabled type="text" class="form-control" value="{{ $patient ? $patient->doctor->name : auth()->user()->name }}"  readonly>
                 </div>
             </div>
 
@@ -18,35 +24,35 @@
             <div class="form-group col-md-6">
                 <div class="form-group">
                     <label>Nomor Rekam Medis</label>
-                    <input type="text" class="form-control" name="medical_number_record" value="{{ $patient ? $patient->medical_number_record : 'P/' . $medicalNumber }}" readonly>
+                    <input disabled type="text" class="form-control" name="medical_number_record" value="{{ $patient ? $patient->medical_number_record : 'P/' . $medicalNumber }}" readonly>
                 </div>
             </div>
 
             <div class="form-group col-md-6">
                 <div class="form-group">
                     <label>Nama Pasien</label>
-                    <input type="text" class="form-control" name="name" value="{{ $patient ? $patient->user->name : old('name') }}" readonly>
+                    <input disabled type="text" class="form-control" name="name" value="{{ $patient ? $patient->name : old('name') }}">
                 </div>
             </div>
 
             <div class="form-group col-md-6">
                 <div class="form-group">
                     <label>Ktp</label>
-                    <input type="text" class="form-control" name="ktp" value="{{ $patient ? $patient->ktp : old('ktp') }}" readonly>
+                    <input disabled type="text" class="form-control" name="ktp" value="{{ $patient ? $patient->ktp : old('ktp') }}">
                 </div>
             </div>
 
             <div class="form-group col-md-6">
                 <div class="form-group">
                     <label>Tanggal Lahir</label>
-                    <input type="date" class="form-control" name="birth_date" value="{{ $patient ? $patient->birth_date : old('birth_date') }}" readonly>
+                    <input disabled type="date" class="form-control" name="birth_date" value="{{ $patient ? $patient->birth_date : old('birth_date') }}">
                 </div>
             </div>
 
             <div class="form-group col-md-6">
                 <div class="form-group">
                     <label>Tempat Lahir</label>
-                    <input type="text" class="form-control" name="birth_place" value="{{ $patient ? $patient->birth_place : old('birth_place') }}" readonly>
+                    <input disabled type="text" class="form-control" name="birth_place" value="{{ $patient ? $patient->birth_place : old('birth_place') }}">
                 </div>
             </div>
 
@@ -55,11 +61,12 @@
                     <label>Jenis Kelamin</label>
                     @php
                         $jenisKelamin = ['Laki-Laki', 'Perempuan'];
+                        $currentGender = $patient ? $patient->gender : old('gender');
                     @endphp
-                    <select class="form-control" name="gender" readonly>
+                    <select disabled class="form-control" name="gender">
                         <option value="">-- PILIH JENIS KELAMIN --</option>
                         @foreach ($jenisKelamin as $key => $value)
-                            <option value="{{ $value }}" readonly {{ $value == $patient->gender ? 'selected' : '' }}> {{ $value }}</option>
+                            <option value="{{ $value }}" {{ $value == $currentGender ? 'selected' : '' }}> {{ $value }}</option>
                         @endforeach
                     </select>
 
@@ -69,50 +76,120 @@
             <div class="form-group col-md-6">
                 <div class="form-group">
                     <label>Alamat</label>
-                    <input type="text" class="form-control" name="address" value="{{ $patient ? $patient->address : old('address') }}" readonly>
+                    <input disabled type="text" class="form-control" name="address" value="{{ $patient ? $patient->address : old('address') }}">
                 </div>
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="col-md-12">
+                <h4> Data Penyakit & Riwayat </h4>
+                <hr>
+            </div>
+
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label>Penyakit</label>
-                    <input type="text" class="form-control" name="disease" value="{{ $patient ? $patient->disease : old('disease') }}" readonly>
+                    <label> Lama Inap </label>
+                    <input disabled type="number" class="form-control" name="length_of_stay" value="{{ $patient ? $patient->length_of_stay : old('length_of_stay')}}">
                 </div>
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label>Gejala</label>
-                    <textarea class="form-control" name="symptoms" cols="50" rows="30" readonly>{{ $patient ? $patient->symptoms : old('symptoms') }}</textarea>
+                    <label> Jenis Stadium </label>
+
+                    @php
+                        $stadiumType = ['Dini', 'Lanjut'];
+                        $currentStadiumType = $patient ? $patient->stadium_type : old('stadium_type');
+                    @endphp
+
+                    <select disabled class="form-control" name="stadium_type">
+                        <option value="">-- PILIH JENIS STADIUM --</option>
+                        @foreach ($stadiumType as $key => $value)
+                            <option value="{{ $value }}" {{ $value == $currentStadiumType ? 'selected' : '' }}> {{ $value }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label>Stadium</label>
-                    <input type="number" class="form-control" name="stadium" value="{{ $patient ? $patient->stadium : old('stadium') }}" readonly>
+                    <label> Ukuran Tumor </label>
+                    <input disabled type="number" class="form-control" name="tumor_size" value="{{ $patient ? $patient->tumor_size : old('tumor_size') }}">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label> Jenis Pengobatan </label>
+                    @php
+                        $treatmentType = ['KEMOTERAPI', 'RADIOTERAPI'];
+                        $currentTreatmentType = $patient ? $patient->treatment_type : old('treatment_type');
+                    @endphp
+
+                    <select disabled class="form-control" name="treatment_type">
+                        <option value="">-- PILIH JENIS PENGOBATAN PASIEN --</option>
+                        @foreach ($treatmentType as $key => $value)
+                            <option value="{{ $value }}" {{ $value == $currentTreatmentType ? 'selected' : '' }}> {{ $value }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label> Status </label>
+                    @php
+                        $status = ['HIDUP', 'MENINGGAL'];
+                        $currentStatus = $patient ? $patient->status : old('status');
+                    @endphp
+
+                    <select disabled class="form-control" name="status">
+                        <option value="">-- PILIH STATUS PASIEN --</option>
+                        @foreach ($status as $key => $value)
+                            <option value="{{ $value }}" {{ $value == $currentStatus ? 'selected' : '' }}> {{ $value }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
 
-            @if (!$patient)
-                <div class="form-group col-md-12">
-                    <hr>
-                    <p class="font-weight-600"> Tambah User Login </p>
+            <div class="col-md-12">
+                <hr>
+                <label> Masuk Ruang ICU atau Tidak ? </label>
+                <div class="form-group mt-2">
 
-                    <div class="form-group">
-                        <label>Nomor Telepon</label>
-                        <input type="number" class="form-control" name="phone_number" value="{{ old('phone_number') }}" readonly>
-                    </div>
-                </div>
+                    @php
+                        $currentIcuStatus = $patient ? $patient->icu_indikator : old('icu_indikator');
+                    @endphp
 
-                <div class="form-group col-md-12">
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" name="password">
-                    </div>
+                    <label class="">
+                        <input disabled type="radio" name="icu_indikator" value="true" class="custom-switch-input" {{ $currentIcuStatus == true ? 'checked' : '' }}>
+                        <span class="custom-switch-indicator"></span>
+                        <span class="custom-switch-description">Ya</span>
+                    </label>
+
+                    <label class="">
+                        <input disabled type="radio" name="icu_indikator" value="false" class="custom-switch-input" {{ $currentIcuStatus == false ? 'checked' : '' }}>
+                        <span class="custom-switch-indicator"></span>
+                        <span class="custom-switch-description">Tidak</span>
+                    </label>
                 </div>
-            @endif
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label> Berapa lama masuk ruang icu ? (Hari) </label>
+                    <input disabled type="number" class="form-control" name="icu_los" value="{{ $patient ? $patient->icu_los : old('icu_los')}} ">
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label> Berapa lama memakai alat ventilator / alat bantu pernapasan ( Jam ) </label>
+                    <input disabled type="number" class="form-control" name="vent_hour" value="{{ $patient ? $patient->vent_hour : old('vent_hour')}} ">
+                </div>
+            </div>
+
 
             <div class="form-group col-md-12">
                 <a href="{{ route('patient.index') }}" class="btn btn-warning">Kembali</a>

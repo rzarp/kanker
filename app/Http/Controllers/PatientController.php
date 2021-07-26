@@ -28,7 +28,6 @@ class PatientController extends Controller
                 ->addColumn('action', function ($row) {
                     $button = "
                     <div class='row'>
-                        <a href='" . route('patient.progress', $row->id) . "' class='btn btn-warning'>Input Perkembangan Pasien</a>
                         <a href='" . route('patient.show', $row->id) . "' class='btn btn-success ml-2'>Detail</a>
                         <a href='" . route('patient.edit', $row->id) . "' class='btn btn-primary ml-2'>Edit</a>
                         <form method='POST' action='" . route('patient.destroy', $row->id) . "' class='col-md-4'>
@@ -41,6 +40,11 @@ class PatientController extends Controller
                     </div>
                     ";
                     return $button;
+                })
+                ->addColumn('status', function ($row) {
+                    $labelType = $row->status == 'MENINGGAL' ? 'danger' : 'success';
+
+                    return "<label class='badge badge-{$labelType}'> {$row->status} </label>";
                 })
                 ->rawColumns(['action', 'status'])
                 ->make(true);
@@ -74,21 +78,9 @@ class PatientController extends Controller
 
         try {
             $patientData = $request->validated();
-            $patientData['date_in'] = date('Y-m-d');
-
-            // create user first
-            $user = User::create([
-                'name' => $request->get('name'),
-                'phone_number' => $request->get('phone_number'),
-                'password' => Hash::make($request->get('password')),
-                'role' => 'PASIEN'
-            ]);
-
-            $patientData['user_id'] = $user->id;
             Patient::create($patientData);
 
             DB::commit();
-
 
             flash('Data pasien berhasil ditambah!')->success();
             return redirect()->route('patient.index');
@@ -135,14 +127,10 @@ class PatientController extends Controller
      */
     public function update(PatientPostRequest $request, $id)
     {
-        $patient = Patient::findOrFail($id);
         DB::beginTransaction();
 
         try {
             Patient::where('id', $id)->update($request->validated());
-            User::where('id', $patient->user->id)->update([
-                'name' => $request->get('name')
-            ]);
             DB::commit();
 
             flash('Data berhasil diupdate')->success();

@@ -25,15 +25,33 @@ class PatientPostRequest extends FormRequest
     {
         return [
             'dokter_id' => 'required',
+
+            'name' => 'required',
             'medical_number_record' => 'required',
             'ktp' => 'required',
             'gender' => 'required',
             'birth_place' => 'required',
             'birth_date' => 'required',
             'address' => 'required',
-            'symptoms' => 'required',
-            'disease' => 'required',
-            'stadium' => 'required',
+
+            'length_of_stay' => 'required',
+            'stadium_type' => 'required',
+            'tumor_size' => 'required',
+            'treatment_type' => 'required',
+            'status' => 'required',
+
+            'icu_indikator' => 'nullable',
+            'icu_los' => 'nullable',
+            'vent_hour' => 'nullable'
         ];
+    }
+
+    public function validated()
+    {
+        $validated = parent::validated();
+
+        $validated['icu_indikator'] = (bool) $validated['icu_indikator'];
+
+        return $validated;
     }
 }
