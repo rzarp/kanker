@@ -18,8 +18,12 @@ Auth::routes(['register' => false]);
 Route::middleware('auth')->group(function () {
     Route::get('/', 'DashboardController@dashboard')->name('dashboard');
 
+    Route::get('/profile', 'ProfileController@editProfile')->name('profile');
+    Route::put('/profile/action', 'ProfileController@updateProfile')->name('profile.action');
+
     // user
     Route::resource('user', UserController::class);
+
 
     // patient
     Route::resource('patient', PatientController::class);

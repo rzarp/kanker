@@ -3,7 +3,7 @@
 
     @php
         $user = $user ?? null;
-        $action = $user ? route('user.update', $user->id) : route('user.store');
+        $action = route('profile.action');
     @endphp
 
     <div class="section-header">
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="col-md-12">
-                    <button class="btn btn-primary float-right ml-2" type="submit"> {{ $user ? 'Edit' : 'Tambah' }} </button>
+                    <button class="btn btn-primary float-right ml-2" type="submit"> Edit </button>
                     <a href="{{ route('user.index') }}" class="btn btn-danger float-right"> Batal </a>
                 </div>
             </form>
