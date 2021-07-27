@@ -71,37 +71,32 @@ class Patient extends Model
             ->get();
     }
 
-    public static function countByTumorSize()
+    public static function countByTumorSize($year)
     {
         return Patient::selectRaw('tumor_size, count(tumor_size) as count')
+            ->whereRaw("date_format(created_at, '%Y') = {$year}")
             ->groupBy('tumor_size')
             ->get();
     }
 
+    public static function getDataMonthly($year, $month)
+    {
+        return DB::select(DB::raw(
+            "select
+                ( select count(stadium_type) from patients where stadium_type = 'Dini' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as stadium_dini,
+                ( select count(stadium_type) from patients where stadium_type = 'Lanjut' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as stadium_lanjut,
+                ( select count(treatment_type) from patients where treatment_type = 'RADIOTERAPI' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pengobaatan_radioterapi,
+                ( select count(treatment_type) from patients where treatment_type = 'KEMOTERAPI' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pengobatan_komoterapi,
+                ( select count(status) from patients where status = 'HIDUP' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pasien_hidup,
+                ( select count(status) from patients where status = 'MENINGGAL' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pasien_meninggal
+            "
+        ))[0];
+    }
+
     public static function monthlyStatus($year)
     {
-        $data = DB::select(DB::raw(
-            "
-            select
-                DATE_FORMAT(created_at, '%M') as month,
-                status,
-                count(status) as count
-            from
-                patients
-            where
-                date_format(created_at, '%Y') = '{$year}'
-            group by
-                month, status
-            "
-        ));
-
-        $temp = [];
-        foreach ($data as $key => $value) {
-            $temp[$value->month][$value->status] = $value->count;
-        }
-
         $months = array(
-            'January',
+            '1' => 'January',
             'February',
             'March',
             'April',
@@ -116,13 +111,16 @@ class Patient extends Model
         );
 
         $result = [];
-        $default = [
-            'MENINGGAL' => 0,
-            'HIDUP' => 0
-        ];
 
-        foreach ($months as $key => $value) {
-            $result[$value] = $temp[$value] ?? $default;
+        foreach (range(1, 12) as $month) {
+            $data = get_object_vars(self::getDataMonthly($year, $month));
+
+            foreach ($data as $key => $value) {
+                $explodeName = explode('_', $key);
+
+                $result[$key]['name'] = ucfirst($explodeName[0]) . ' ' . ucfirst($explodeName[1]);
+                $result[$key]['data'][] = $value;
+            }
         }
 
         return [

@@ -64,6 +64,19 @@
             </div>
             </div>
         </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card card-statistic-1">
+            <div class="card-wrap">
+                <div class="card-body p-5">
+                    <h4> Tentang Aplikasi  </h4>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus ipsam enim totam deleniti? Maiores sunt assumenda laudantium. Asperiores, error quis. Accusamus ea voluptate distinctio hic eveniet quod modi nisi saepe?
+                    </p>
+                </div>
+            </div>
+            </div>
+        </div>
     </div>
 
 
