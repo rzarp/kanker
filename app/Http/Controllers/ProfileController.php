@@ -34,14 +34,12 @@ class ProfileController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'phone_number' => 'required',
-            'role' => 'required'
+            'phone_number' => 'required'
         ]);
 
         $data = [
             'name' => $request->get('name'),
-            'phone_number' => $request->get('phone_number'),
-            'role' => $request->get('role'),
+            'phone_number' => $request->get('phone_number')
         ];
 
         if ($request->get('password')) {

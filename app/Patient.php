@@ -26,6 +26,8 @@ class Patient extends Model
         'icu_indikator',
         'icu_los',
         'vent_hour',
+
+        'probability'
     ];
 
     public function user()
@@ -127,5 +129,36 @@ class Patient extends Model
             'category' => $months,
             'data' => array_values($result)
         ];
+    }
+
+    public static function probabilityData($year)
+    {
+        $data = DB::select(DB::raw(
+            "select
+                ( select count(stadium_type) from patients where stadium_type = 'Dini' and date_format(created_at, '%Y') = '{$year}' ) as stadium_dini,
+                ( select count(stadium_type) from patients where stadium_type = 'Lanjut' and date_format(created_at, '%Y') = '{$year}' ) as stadium_lanjut,
+                ( select count(treatment_type) from patients where treatment_type = 'RADIOTERAPI' and date_format(created_at, '%Y') = '{$year}' ) as pengobaatan_radioterapi,
+                ( select count(treatment_type) from patients where treatment_type = 'KEMOTERAPI' and date_format(created_at, '%Y') = '{$year}' ) as pengobatan_komoterapi,
+                ( select count(status) from patients where status = 'HIDUP' and date_format(created_at, '%Y') = '{$year}' ) as pasien_hidup,
+                ( select count(status) from patients where status = 'MENINGGAL' and date_format(created_at, '%Y') = '{$year}' ) as pasien_meninggal
+            "
+        ))[0];
+
+        $result = [];
+        foreach (get_object_vars($data) as $key => $value) {
+            $explodeName = explode('_', $key);
+
+            $result[$key]['name'] = ucfirst($explodeName[0]) . ' ' . ucfirst($explodeName[1]);
+            $result[$key]['y'] = $value;
+        }
+
+        return array_values($result);
+    }
+
+    public static function averageProbability($year)
+    {
+        return Patient::selectRaw('(sum(probability) / count(probability)) as probability')
+            ->whereRaw("date_format(created_at, '%Y') = {$year}")
+            ->first();
     }
 }

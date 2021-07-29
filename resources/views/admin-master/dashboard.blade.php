@@ -41,7 +41,7 @@
             </div>
             <div class="card-wrap">
                 <div class="card-header">
-                <h4>Jumlah Tenaga Ahli</h4>
+                <h4>Jumlah Admin</h4>
                 </div>
                 <div class="card-body">
                  {{ $count_it }}
@@ -68,11 +68,9 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card card-statistic-1">
             <div class="card-wrap">
-                <div class="card-body p-5">
+                <div class="card-body p-3 breadcrumb">
                     <h4> Tentang Aplikasi  </h4>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus ipsam enim totam deleniti? Maiores sunt assumenda laudantium. Asperiores, error quis. Accusamus ea voluptate distinctio hic eveniet quod modi nisi saepe?
-                    </p>
+                    <p> Hallo, nama saya Viril Haqq dan saya kuliah di Binus University jurusan Teknik Informatika & Statistik. Tujuan saya membuat aplikasi ini karena ingin mengetahui Probabilitas atau Peluang suatu kejadian dari laju kesehatan pasien kanker payudara di Rumah Sakit Kanker Dharmais. Semoga dengan dibuatkannya aplikasi ini bisa membantu dalam pengambilan keputusan yang tepat dalam hal menangani pasien kanker payudara, karena kehidupan di dunia tidak ada kepastian dan informasi yang tidak sempurna. </p>
                 </div>
             </div>
             </div>

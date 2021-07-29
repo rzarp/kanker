@@ -33,24 +33,6 @@
                     </div>
                 </div>
 
-
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for=""> Role </label>
-                        @php
-                            $role = ['ADMIN', 'PASIEN'];
-                            $currentRole = $user ? $user->role : old('role')
-                        @endphp
-
-                        <select name="role" class="form-control">
-                            <option value="">-- PILIH ROLE --</option>
-                            @foreach ($role as $key => $value)
-                                <option value="{{ $value }}" {{ $value == $currentRole ? 'selected' : '' }}> {{ Str::title($value) }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for=""> Password </label>

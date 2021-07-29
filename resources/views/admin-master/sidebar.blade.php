@@ -1,9 +1,9 @@
 <aside id="sidebar-wrapper">
     <div class="sidebar-brand">
-        <a href="">Kanker</a>
+        <a href="">Probabilitas Kanker</a>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
-        <a href="/">Kank</a>
+        <a href="/">Proker</a>
     </div>
     <ul class="sidebar-menu">
         <li class="menu-header">Dashboard</li>

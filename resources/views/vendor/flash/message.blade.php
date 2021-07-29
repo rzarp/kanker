@@ -6,7 +6,16 @@
             'body'       => $message['message']
         ])
     @else
-        <div class="shadow-lg
+        @push('scripts')
+            <script>
+                let message = "{{ $message['message'] }}",
+                    level = "{{ $message['level'] }}";
+
+                swal(message, '', level);
+            </script>
+        @endpush
+
+        {{-- <div class="shadow-lg
                     alert
                     alert-{{ $message['level'] }}
                     {{ $message['important'] ? 'alert-important' : '' }}"
@@ -24,7 +33,7 @@
             @endif
 
             {!! $message['message'] !!}
-        </div>
+        </div> --}}
     @endif
 @endforeach
 

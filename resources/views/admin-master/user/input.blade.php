@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label for=""> Role </label>
                         @php
-                            $role = ['ADMIN', 'PASIEN'];
+                            $role = ['ADMIN', 'DOKTER'];
                             $currentRole = $user ? $user->role : old('role')
                         @endphp
 

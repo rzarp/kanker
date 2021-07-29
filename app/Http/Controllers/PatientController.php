@@ -77,7 +77,7 @@ class PatientController extends Controller
         DB::beginTransaction();
 
         try {
-            $patientData = $request->validated();
+            $patientData = $this->calculate($request->validated());
             Patient::create($patientData);
 
             DB::commit();
@@ -130,7 +130,7 @@ class PatientController extends Controller
         DB::beginTransaction();
 
         try {
-            Patient::where('id', $id)->update($request->validated());
+            Patient::where('id', $id)->update($this->calculate($request->validated()));
             DB::commit();
 
             flash('Data berhasil diupdate')->success();
@@ -155,5 +155,31 @@ class PatientController extends Controller
         Patient::destroy($id);
         flash('Data berhasil dihapus')->error();
         return redirect()->route('patient.index');
+    }
+
+    public function calculate($patient)
+    {
+        // keterangan/kategorik dari setiap variable
+        // Status = 1 hidup, 0 meninggal
+        // Usia = 0Dibawah 50thn, 1 diatas 50thn
+        // Stadium = 1 Dini, 0 lanjut
+        // Ukuran Tumor = 1 <5cm, 0 >5cm
+        // Jenis Pengobatan = 1 radioterapi, 0 kemoterapi
+        // Jenis Kelamin = 1 perempuan, 0 laki-laki
+        // Icu Indikator = 1 masuk ICU, 0 tidak masuk ICU
+
+        $status = ($patient['status'] == 'HIDUP') ? 1 : 0;
+
+        $JenisPengobatanValue = $patient['treatment_type'] == 'RADIOTERAPI' ? 1 : 0;
+        $JenisKemalinValue = $patient['gender'] == 'Perempuan' ? 1 : 0;
+        $IcuIndikatorValue = $patient['icu_indikator'] ? 1 : 0;
+        $IcuValue = $patient['icu_los'];
+
+        $atas = exp(2.1923 + (-0.0701 * $JenisPengobatanValue) + (-0.0634 * $JenisKemalinValue) + (0.3331 * $IcuIndikatorValue) + (0.0947 * $IcuValue));
+        $bawah = 1 + $atas;
+        $probability = ($atas / $bawah) * 100;
+
+        $patient['probability'] = $probability;
+        return $patient;
     }
 }

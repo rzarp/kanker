@@ -89,6 +89,7 @@
 
     <!-- Page Specific JS File -->
     <script src="{{asset('assets/js/page/index-0.js')}}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
       $(document).ready(function() {
         $('#summernote').summernote();

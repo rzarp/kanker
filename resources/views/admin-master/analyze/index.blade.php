@@ -1,4 +1,34 @@
 @extends('admin-master.base')
+
+@push('stylesheets')
+    <style>
+        .highcharts-title {
+            font-weight: 100 !important;
+        }
+
+        .circle {
+            padding: 50px;
+            background: #96BAFF;
+            border-radius: 600px;
+            height: 300px;
+            width: 300px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle-text {
+            position: absolute;
+            text-align: center;
+            top: 45%;
+            bottom: 50%;
+            font-weight: bolder !important;
+            font-size: 40px;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="section-header">
         <h1>Dashboard Analyze</h1>
@@ -19,7 +49,7 @@
             </select>
         </div>
 
-        <div class="col-lg-12 col-md-6 col-sm-6 col-12">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
             <div class="card card-statistic-1">
                 <div class="card-wrap">
                     <div class="card-body">
@@ -30,11 +60,35 @@
         </div>
 
 
-        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
             <div class="card card-statistic-1">
                 <div class="card-wrap">
                     <div class="card-body">
                         <div id="count_by_tumor_size"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+            <div class="card card-statistic-1">
+                <div class="card-wrap">
+                    <div class="card-body">
+                        <div id="jumlah_data"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+            <div class="card card-statistic-1">
+                <div class="card-wrap">
+                    <div class="card-body" style="height: 400px;">
+                        <p class="text-center highcharts-title"> Nilai Probabilitas </p>
+
+                        <div class="circle">
+                            <p class="circle-text"> {{ number_format($probability->probability, 2) ?? 0 }}% </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,11 +101,6 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script>
     $(document).ready(function() {
-        // generatePieChart('patient_stadium_type', 'Data Per Jenis Stadium', 'Jenis Stadium', patient_stadium_type_map);
-        // generatePieChart('count_by_gender', 'Data Per Jenis Kelamin', 'Jenis Kelamin', count_by_gender_map);
-        // generatePieChart('count_by_treatment_type', 'Data Per Jenis Pengobatan', 'Jenis Pengobatan', count_by_treatment_type_map);
-        // generatePieChart('count_by_status', 'Data Per Status Pasien', 'Status Pasien', count_by_status_map);
-
         let count_by_tumor_size = {!! $count_by_tumor_size !!};
         let count_by_tumor_size_map = count_by_tumor_size.map((value) => {
             return {'name' : 'Ukuran ' + value.tumor_size, y: value.count}
@@ -63,6 +112,11 @@
 
         generateColumnChart('count_by_tumor_size', 'Data Per Ukuran Tumor', count_by_tumor_size_map);
         generateColumnChartCategory('monthly_status', 'Data Per Bulan', category, data);
+
+
+        let count_data_per_category = {!! $count_data_per_category !!};
+
+        generateColumnChart('jumlah_data', 'Jumlah Data Per Kategori', count_data_per_category);
     });
 
     function generatePieChart(container, title, seriesname, data) {
@@ -103,6 +157,7 @@
     }
 
     function generateColumnChart(container, title, data) {
+        console.log(data);
         Highcharts.chart(container, {
             chart: {
                 type: 'column'

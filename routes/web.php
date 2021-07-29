@@ -24,7 +24,6 @@ Route::middleware('auth')->group(function () {
     // user
     Route::resource('user', UserController::class);
 
-
     // patient
     Route::resource('patient', PatientController::class);
     Route::get('patient-progress/{patientId}', 'PatientProgressController@index')->name('patient.progress');

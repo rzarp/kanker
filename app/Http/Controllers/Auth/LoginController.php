@@ -46,8 +46,6 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        $input = $request->all();
-
         $this->validate($request, [
             'phone_number' => 'required|numeric',
             'password' => 'required',
@@ -58,11 +56,13 @@ class LoginController extends Controller
             'password' => $request->get('password')
         ];
 
+        $remember_me  = (!empty($request->remember_me)) ? TRUE : FALSE;
+
         if (auth()->attempt($dataLogin)) {
             return redirect()->route('dashboard');
         } else {
             return redirect()->route('login')
-                ->with('error', 'Email-Address And Password Are Wrong.');
+                ->with('error', 'Phone Number And Password Are Wrong.');
         }
     }
 }

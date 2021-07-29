@@ -199,21 +199,23 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label> Berapa lama masuk ruang icu ? (Hari) </label>
-                        <input type="number" class="form-control" name="icu_los" value="{{ $patient ? $patient->icu_los : old('icu_los')}}">
+
+                <div class="row col-md-12" id="optional" style="display: none">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label> Berapa lama masuk ruang icu ? (Hari) </label>
+                            <input type="number" class="form-control" name="icu_los" value="{{ $patient ? $patient->icu_los : old('icu_los')}}">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label> Berapa lama memakai alat ventilator / alat bantu pernapasan ( Jam ) </label>
+                            <input type="number" class="form-control" name="vent_hour" value="{{ $patient ? $patient->vent_hour : old('vent_hour')}}">
+                        </div>
                     </div>
                 </div>
-
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label> Berapa lama memakai alat ventilator / alat bantu pernapasan ( Jam ) </label>
-                        <input type="number" class="form-control" name="vent_hour" value="{{ $patient ? $patient->vent_hour : old('vent_hour')}}">
-                    </div>
-                </div>
-
 
                 <div class="form-group col-md-12 float-right">
                     <button class="btn btn-primary float-right ml-3" type="submit">
@@ -225,3 +227,21 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready( function() {
+        $(document).on('change', '.custom-switch-input', function() {
+            let value = $(this).val();
+
+            console.log(value);
+            if (value == 'true') {
+                $('#optional').css('display', '');
+            } else {
+                $('#optional').css('display', 'none');
+            }
+        });
+    });
+</script>
+
+@endpush

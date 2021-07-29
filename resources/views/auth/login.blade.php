@@ -43,6 +43,11 @@
                         </div>
                     </div>
 
+                    <div class="col-md-12" style="background: rgb(241, 241, 241);">
+                        <p> If you do not have an account, please contact admin </p>
+                        <p> +62 878-8129-4004 <br> viril.haqq@binus.ac.id </p>
+                    </div>
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
                             Login
