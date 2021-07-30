@@ -190,7 +190,7 @@
                 }
             },
             series: [{
-                name: 'Ukuran Tumor',
+                name: title,
                 colorByPoint: true,
                 data: data
             }]
