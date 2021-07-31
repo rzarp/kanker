@@ -172,7 +172,7 @@
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Jumlah'
+                    text: 'Jumlah Pasien'
                 }
             },
             tooltip: {
@@ -226,7 +226,7 @@
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Jumlah'
+                    text: 'Jumlah Pasien'
                 }
             },
             tooltip: {
