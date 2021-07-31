@@ -93,7 +93,9 @@ class Patient extends Model
                 ( select count(status) from patients where status = 'MENINGGAL' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pasien_meninggal,
                 ( select count(status) from patients where gender = 'Laki-laki' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pasien_laki,
                 ( select count(status) from patients where gender = 'Perempuan' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pasien_perempuan,
-                ( select count(status) from patients where icu_indikator = 1 and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as masuk_ruang_icu
+                ( select count(status) from patients where icu_indikator = 1 and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as masuk_ruang_icu,
+                ( select count(icu_los) from patients where date_format(created_at, '%Y-%c') = '{$year}-{$month}' and icu_los > 0 and icu_los = 7 ) as 7_hari_icu,
+                ( select count(vent_hour) from patients where date_format(created_at, '%Y-%c') = '{$year}-{$month}' and vent_hour > 0 and vent_hour = 24 ) as 24_jam_ventilator
             "
         ))[0];
     }
@@ -151,7 +153,9 @@ class Patient extends Model
                 ( select count(status) from patients where status = 'MENINGGAL' and date_format(created_at, '%Y') = '{$year}' ) as pasien_meninggal,
                 ( select count(status) from patients where gender = 'Laki-laki' and date_format(created_at, '%Y') = '{$year}' ) as pasien_laki,
                 ( select count(status) from patients where gender = 'Perempuan' and date_format(created_at, '%Y') = '{$year}' ) as pasien_perempuan,
-                ( select count(status) from patients where icu_indikator = 1 and date_format(created_at, '%Y') = '{$year}' ) as masuk_ruang_icu
+                ( select count(status) from patients where icu_indikator = 1 and date_format(created_at, '%Y') = '{$year}' ) as masuk_ruang_icu,
+                ( select count(icu_los) from patients where date_format(created_at, '%Y') = '{$year}' and icu_los > 0 and icu_los = 7 ) as 7_hari_icu,
+                ( select count(vent_hour) from patients where date_format(created_at, '%Y') = '{$year}' and vent_hour > 0 and vent_hour = 24 ) as 24_jam_ventilator
             "
         ))[0];
 
