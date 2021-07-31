@@ -90,7 +90,10 @@ class Patient extends Model
                 ( select count(treatment_type) from patients where treatment_type = 'RADIOTERAPI' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pengobaatan_radioterapi,
                 ( select count(treatment_type) from patients where treatment_type = 'KEMOTERAPI' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pengobatan_komoterapi,
                 ( select count(status) from patients where status = 'HIDUP' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pasien_hidup,
-                ( select count(status) from patients where status = 'MENINGGAL' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pasien_meninggal
+                ( select count(status) from patients where status = 'MENINGGAL' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pasien_meninggal,
+                ( select count(status) from patients where gender = 'Laki-laki' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pasien_laki,
+                ( select count(status) from patients where gender = 'Perempuan' and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as pasien_perempuan,
+                ( select count(status) from patients where icu_indikator = 1 and date_format(created_at, '%Y-%c') = '{$year}-{$month}' ) as masuk_ruang_icu
             "
         ))[0];
     }
@@ -120,7 +123,12 @@ class Patient extends Model
             foreach ($data as $key => $value) {
                 $explodeName = explode('_', $key);
 
-                $result[$key]['name'] = ucfirst($explodeName[0]) . ' ' . ucfirst($explodeName[1]);
+                $name = '';
+                foreach ($explodeName as $keys => $v) {
+                    $name .= ' ' . ucfirst($v);
+                }
+
+                $result[$key]['name'] = $name;
                 $result[$key]['data'][] = $value;
             }
         }
@@ -140,15 +148,22 @@ class Patient extends Model
                 ( select count(treatment_type) from patients where treatment_type = 'RADIOTERAPI' and date_format(created_at, '%Y') = '{$year}' ) as pengobaatan_radioterapi,
                 ( select count(treatment_type) from patients where treatment_type = 'KEMOTERAPI' and date_format(created_at, '%Y') = '{$year}' ) as pengobatan_komoterapi,
                 ( select count(status) from patients where status = 'HIDUP' and date_format(created_at, '%Y') = '{$year}' ) as pasien_hidup,
-                ( select count(status) from patients where status = 'MENINGGAL' and date_format(created_at, '%Y') = '{$year}' ) as pasien_meninggal
+                ( select count(status) from patients where status = 'MENINGGAL' and date_format(created_at, '%Y') = '{$year}' ) as pasien_meninggal,
+                ( select count(status) from patients where gender = 'Laki-laki' and date_format(created_at, '%Y') = '{$year}' ) as pasien_laki,
+                ( select count(status) from patients where gender = 'Perempuan' and date_format(created_at, '%Y') = '{$year}' ) as pasien_perempuan,
+                ( select count(status) from patients where icu_indikator = 1 and date_format(created_at, '%Y') = '{$year}' ) as masuk_ruang_icu
             "
         ))[0];
 
         $result = [];
         foreach (get_object_vars($data) as $key => $value) {
             $explodeName = explode('_', $key);
+            $name = '';
+            foreach ($explodeName as $keys => $v) {
+                $name .= ' ' . ucfirst($v);
+            }
 
-            $result[$key]['name'] = ucfirst($explodeName[0]) . ' ' . ucfirst($explodeName[1]);
+            $result[$key]['name'] = $name;
             $result[$key]['y'] = $value;
         }
 

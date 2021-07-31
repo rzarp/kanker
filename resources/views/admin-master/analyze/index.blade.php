@@ -190,7 +190,7 @@
                 }
             },
             series: [{
-                name: title,
+                name: 'Nilai',
                 colorByPoint: true,
                 data: data
             }]
